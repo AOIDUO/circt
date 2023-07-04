@@ -23,6 +23,7 @@
 #include "mlir/Dialect/ControlFlow/IR/ControlFlowOps.h"
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/MemRef/IR/MemRef.h"
+#include "mlir/Dialect/SCF/IR/SCF.h"
 #include "mlir/IR/AsmState.h"
 #include "mlir/IR/Matchers.h"
 #include "mlir/Support/LogicalResult.h"
@@ -1004,8 +1005,12 @@ private:
     /// Schedule any registered block arguments to be executed before the body
     /// of the branch.
     rewriter.setInsertionPointToEnd(parentCtrlBlock);
-    auto preSeqOp = rewriter.create<calyx::SeqOp>(loc);
-    rewriter.setInsertionPointToEnd(preSeqOp.getBodyBlock());
+
+    //////////////////////////////////////////////////////////////////////
+    // auto preSeqOp = rewriter.create<calyx::SeqOp>(loc);
+    // rewriter.setInsertionPointToEnd(preSeqOp.getBodyBlock());
+    //////////////////////////////////////////////////////////////////////
+
     for (auto barg :
          getState<ComponentLoweringState>().getBlockArgGroups(from, to))
       rewriter.create<calyx::EnableOp>(barg.getLoc(), barg.getSymName());
